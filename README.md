@@ -135,3 +135,43 @@
         ))}
         <div>{currentItem.content}</div>
   ```
+
+## `useEffect()`
+
+- `useEffect(effect(fn), dependency([]));`
+
+- `useEffect(fn);` is similar to componentDidMount and componentDidUpdate
+
+  - `useEffect()` runs both after the first render and after every update.
+
+- `useEffect(fn, []);` is similar to componentDidMount
+
+  - `useEffect()` runs only after the first render.
+
+- `useEffect(fn, [dependencies]);` is similar to componentDidMount and componentDidUpdate with dependencies
+
+  - `useEffect()` runs after the first render and after the dependencies changed.
+
+## `useTitle()`
+
+- ```jsx
+  const useTitle = (initialTitle) => {
+    const [title, setTitle] = useState(initialTitle);
+    const updateTitle = () => {
+      const htmlTitle = document.querySelector('title');
+      htmlTitle.innerText = title;
+    };
+    useEffect(updateTitle, [title]);
+    return setTitle;
+  };
+
+  const App = () => {
+    const titleUpdater = useTitle('Loading...');
+    setTimeout(() => titleUpdater('Home'), 1000);
+    return (
+      <div className='App'>
+        <div>Hi</div>
+      </div>
+    );
+  };
+  ```
