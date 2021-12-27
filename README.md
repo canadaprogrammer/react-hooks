@@ -136,9 +136,7 @@
         <div>{currentItem.content}</div>
   ```
 
-## `useEffect()`
-
-- `useEffect(effect(fn), dependency([]));`
+## `useEffect(effect(fn), dependency([]))`
 
 - `useEffect(fn);` is similar to componentDidMount and componentDidUpdate
 
@@ -151,6 +149,8 @@
 - `useEffect(fn, [dependencies]);` is similar to componentDidMount and componentDidUpdate with dependencies
 
   - `useEffect()` runs after the first render and after the dependencies changed.
+
+- If the `fn` has `return fn`, the return function cleans up the effect. It's similar to componentWillUnmount
 
 ## `useTitle()`
 
@@ -174,4 +174,56 @@
       </div>
     );
   };
+  ```
+
+## `useRef()`
+
+- ```jsx
+  import { useRef } from 'react';
+
+  const App = () => {
+    const reference = useRef();
+    // setTimeout(() => console.log(reference.current), 1000); // <input placeholder="la"></input>
+
+    // for preventing an error of `focus` related to undefined earlier
+    // Method 1: add `?`
+    setTimeout(() => reference.current?.focus(), 1000);
+    // Method 2: use `useEffect()`
+    useEffect(() => {
+      setTimeout(() => reference.current.focus(), 1000);
+    }, []);
+    return (
+      <div className="App">
+        <div>Hi</div>
+        <input ref={reference} placeholder="la" />
+  ```
+
+## `useClick()`
+
+- ```jsx
+  const useClick = (onClick) => {
+    const element = useRef();
+    useEffect(() => {
+      if (typeof onClick !== "function") {
+        return;
+      }
+      const { current } = element;
+      if (current) {
+        current.addEventListener("click", onClick);
+      }
+      //
+      return () => {
+        if (current) {
+          current.removeEventListener("click", onClick);
+        }
+      };
+    }, []);
+    return typeof onClick !== "function" ? undefined : element;
+  };
+  function App() {
+    const sayHello = () => console.log("Hello");
+    const title = useClick(sayHello);
+    return (
+      <div className="App">
+        <h1 ref={title}>Hi</h1>
   ```
