@@ -232,14 +232,14 @@
 
 - ```jsx
   const useConfirm = (message = "", onConfirm, onCancel) => {
-    if (onConfirm && typeof onConfirm !== "function") {
+    if (typeof onConfirm !== "function") {
       return;
     }
-    if (onCancel && typeof onCancel !== "function") {
+    if (typeof onCancel !== "function") {
       return;
     }
     const confirmAction = () => {
-      if (confirm(message)) {
+      if (window.confirm(message)) {
         onConfirm();
       } else {
         onCancel();
@@ -275,4 +275,28 @@
       <div className="App">
         <button onClick={enablePrevent}>Protected</button>
         <button onClick={disablePrevent}>Unprotected</button>
+  ```
+
+## `useBeforeLeave()`
+
+- ```jsx
+  const useBeforeLeave = (message) => {
+    useEffect(() => {
+      if (typeof message !== "function") {
+        return;
+      }
+      const handle = (event) => {
+        const {clientY} = event;
+        if(clientY <= 0) {
+          message();
+        }
+      };
+      document.addEventListener("mouseleave", handle);
+      return () => document.removeEventListener("mouseleave", handle);
+    }, []);
+  };
+
+  const App = () => {
+    const message = () => window.alert("please don't leave!!");
+    useBeforeLeave(message);
   ```
