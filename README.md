@@ -211,7 +211,7 @@
       if (current) {
         current.addEventListener("click", onClick);
       }
-      //
+      // clean up
       return () => {
         if (current) {
           current.removeEventListener("click", onClick);
@@ -226,4 +226,32 @@
     return (
       <div className="App">
         <h1 ref={title}>Hi</h1>
+  ```
+
+## `useConfirm()`
+
+- ```jsx
+  const useConfirm = (message = "", onConfirm, onCancel) => {
+    if (onConfirm && typeof onConfirm !== "function") {
+      return;
+    }
+    if (onCancel && typeof onCancel !== "function") {
+      return;
+    }
+    const confirmAction = () => {
+      if (confirm(message)) {
+        onConfirm();
+      } else {
+        onCancel();
+      }
+    };
+    return confirmAction;
+  };
+  const App = () => {
+    const deleteWorld = () => console.log("Deleting the world...");
+    const abort = () => console.log("Aborted");
+    const confirmDelete = useConfirm("Are you sure?", deleteWorld, abort);
+    return (
+      <div className="App">
+        <button onClick={confirmDelete}>Delete the world</button>
   ```
