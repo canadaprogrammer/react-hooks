@@ -384,3 +384,62 @@
         <h1 style={{ position: "fixed", color: y > 100 ? "red" : "blue" }}>Hi</h1>
       </div>
   ```
+
+## `useFullscreen()`
+
+- ```jsx
+  import aurora from "./aurora-g03221ec68_1920.jpg";
+
+  const useFullscreen = (callback) => {
+    const element = useRef();
+    const runCallback = (isFull) => {
+      if (callback && typeof callback === "function") {
+        callback(isFull);
+      }
+    };
+    const triggerFull = () => {
+      if (element.current) {
+        if (element.current.requestFullscreen) {
+          element.current.requestFullscreen();
+        } else if (element.current.mozRequestFullScreen) {
+          element.current.mozRequestFullScreen();
+        } else if (element.current.webkitRequestFullscreen) {
+          element.current.webkitRequestFullscreen();
+        } else if (element.current.msRequestFullscreen) {
+          element.current.msRequestFullscreen();
+        }
+      }
+      runCallback(true);
+    };
+    const exitFull = () => {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+      runCallback(false);
+    };
+    return { element, triggerFull, exitFull };
+  };
+  const App = () => {
+    const onFullScr = (isFull) => {
+      console.log(isFull ? "We're full!" : "We're small");
+    };
+    const { element, triggerFull, exitFull } = useFullscreen(onFullScr);
+    return (
+      <div className="App">
+        <div ref={element}>
+          <img
+            src={aurora}
+            alt=""
+            style={{ width: "300px", display: "block", margin: "0 auto" }}
+          />
+          <button onClick={exitFull}>Exit fullscreen</button>
+        </div>
+        <button onClick={triggerFull}>Make fullscreen</button>
+      </div>
+  ```
