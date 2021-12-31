@@ -443,3 +443,41 @@
         <button onClick={triggerFull}>Make fullscreen</button>
       </div>
   ```
+
+## `useNotification()`
+
+- Use Web API - `Notification()`
+
+- ```jsx
+  const useNotification = (title, options) => {
+    if (!("Notification" in window)) {
+      console.log("4");
+      return;
+    }
+    const fireNotif = () => {
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            console.log("1");
+            new Notification(title, options);
+          } else {
+            console.log("2");
+            return;
+          }
+        });
+      } else {
+        console.log("3");
+        new Notification(title, options);
+      }
+    };
+    return fireNotif;
+  };
+  const App = () => {
+    const triggerNotif = useNotification("title", {
+      body: "body"
+    });
+    return (
+      <div className="App">
+        <button onClick={triggerNotif}>Hello</button>
+      </div>
+  ```
