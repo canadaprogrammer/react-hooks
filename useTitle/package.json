@@ -1,0 +1,27 @@
+{
+  "name": "@testing-hooks/use-title",
+  "version": "1.0.0",
+  "description": "React Hook to update your document's title",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canadaprogrammer/react-hooks"
+  },
+  "keywords": [
+    "react",
+    "react",
+    "hooks",
+    "hooks",
+    "title"
+  ],
+  "author": "jin park <jinpark1504@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/canadaprogrammer/react-hooks/issues"
+  },
+  "homepage": "https://github.com/canadaprogrammer/react-hooks#readme",
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

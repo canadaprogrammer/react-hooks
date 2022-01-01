@@ -540,3 +540,88 @@
         <button onClick={refetch}>Refetch</button>
       </div>
   ```
+
+## Publishing Package to NPM
+
+- Example: useTitle
+
+- Created a `useTitle` folder, and put `index.js`, `useTitle.js`, and `README.md`
+
+  - `index.js`
+
+    - `export { useTitle as default } from './useTitle';`
+
+  - `useTitle.js`
+
+    - ```jsx
+      import { useState, useEffect } from 'react';
+
+      export const useTitle = (initialTitle) => {
+        const [title, setTitle] = useState(initialTitle);
+        const updateTitle = () => {
+          const htmlTitle = document.querySelector('title');
+          htmlTitle.innerText = title;
+        };
+        useEffect(updateTitle, [title]);
+        return setTitle;
+      };
+      ```
+
+  - `README.md`
+
+    > # @testing-hooks/use-title
+    >
+    > React Hook to update your document's title
+    >
+    > ## Installation
+    >
+    > `npm i @testing-hooks/use-title` > `yarn add @testing-hooks/use-title`
+    >
+    > ## Usage
+    >
+    > ```jsx
+    > import React from 'react';
+    > import useTitle from '@testing-hooks/use-title';
+    > const App = () => {
+    >   useTitle('Test Hooks');
+    >   return <h1>Hello</h1>;
+    > };
+    > ```
+    >
+    > ## Arguments
+    >
+    > | Argument | Type   | Description                        | Required |
+    > | -------- | ------ | ---------------------------------- | -------- |
+    > | title    | string | The title on title tag of head tag | yes      |
+
+- On the folder
+
+  - `npm init`
+
+    - package name: @testing-hooks/use-title
+
+    - description: React Hook to update your document's title
+
+  - `npm i react react-dom`
+
+  - On `package.json`
+
+    - Remove scripts from `package.json`
+
+    - Change `dependencies` to `peerDependencies` for not duplication
+
+  - Package name will start @
+
+  - On npmjs.com
+
+    - Create New Organization
+
+      - Name: jin-hooks
+
+  - `npm login`
+
+  - `npm publish --access public`
+
+- Test on `codesandbox.io`
+
+  - Add dependency, `@testing-hooks/use-title`
